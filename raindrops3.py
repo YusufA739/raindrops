@@ -5,7 +5,7 @@ currentframe = []
 currentframelengthofraindrop = []
 lengthofraindrop = []
 
-#manually get screen width from user. They copy and paste one line and we use count to detect the cells per row
+#manually get screen width from user. They copy and paste one line; we use count to detect the cells per row
 for carrier in range(500):
     sys.stdout.write("0")
 
