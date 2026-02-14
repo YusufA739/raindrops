@@ -81,13 +81,14 @@ while True:
     # negative acts like the reverse of a drop. So just black bg/a gap. Once we hit the negative floor, we choose a random positive int to make a new droplet
 
 
-    #display next frame data (updated frame data) (next is current frame
+    #display next frame data (updated frame data) (next is current frame)
+    color = 1
     for line in range(linesperframe):
         for cell in range(cellsperline):
             if currentframelengthofraindrop[line][cell] <= 0:
                 sys.stdout.write(Fore.BLACK + currentframe[line][cell])
             else:
-                color = random.randint(0,1)
+                #color = random.randint(0,1)
                 if color == 0:
                     sys.stdout.write(Fore.BLACK + currentframe[line][cell])
                 elif color == 1:
