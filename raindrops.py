@@ -3,7 +3,7 @@ from colorama import Fore, Back, Style
 nextline = ""
 currentframe = []
 currentframelengthofraindrop = []
-lengthofraindrop = []
+lengthofraindropNextLine = []
 
 #manually get screen width from user. They copy and paste one line; we use count to detect the cells per row
 for carrier in range(500):
@@ -34,13 +34,13 @@ currentFramerate = 0
 
 #make the first line
 for placeholder in range(cellsperline):#cells per line is given by user input
-    lengthofraindrop.append(random.randint(lowestvalue,highestvalue))
+    lengthofraindropNextLine.append(random.randint(lowestvalue,highestvalue))
     nextline += str(random.randint(lowestraindropnumber,highestraindropnumber))#we need this to know initial raindrop lengths and placements
 
 #make the first frame using the first line
 for i in range(linesperframe):
     currentframe.append(nextline)#every line starts out the same singular line copied out
-    currentframelengthofraindrop.append(lengthofraindrop.copy())#only first line is necessary, but I will leave for now
+    currentframelengthofraindrop.append(lengthofraindropNextLine.copy())#only first line is necessary, but I will leave for now
 
 frameCount = 0
 file = open("framerate.txt", "w")
@@ -50,25 +50,25 @@ while True:
 
     # calculate the next frame's data (changes impacting frame: new line added at top, deletion at bottom)
     nextline = ""
-    lengthofraindrop = currentframelengthofraindrop[0].copy()
+    lengthofraindropNextLine = currentframelengthofraindrop[0].copy()
     for i in range(cellsperline):
-        if lengthofraindrop[i] > stopvalue:
+        if lengthofraindropNextLine[i] > stopvalue:
             if highestraindropnumber > lowestraindropnumber:
                 nextline += str(random.randint(lowestraindropnumber, highestraindropnumber))  # change to (0,1) for binary
-                lengthofraindrop[i] -= 1
+                lengthofraindropNextLine[i] -= 1
             else:
                 nextline += str(lowestraindropnumber)
-                lengthofraindrop[i] -= 1
-        elif lengthofraindrop[i] <= lowestvalue:
+                lengthofraindropNextLine[i] -= 1
+        elif lengthofraindropNextLine[i] <= lowestvalue:
             if highestraindropnumber > lowestraindropnumber:
                 nextline += str(random.randint(lowestraindropnumber, highestraindropnumber))  # change to (0,1) for binary
-                lengthofraindrop[i] = random.randint(stopvalue, highestvalue)
+                lengthofraindropNextLine[i] = random.randint(stopvalue, highestvalue)
             else:
                 nextline += str(lowestraindropnumber)
-                lengthofraindrop[i] = random.randint(stopvalue, highestvalue)
+                lengthofraindropNextLine[i] = random.randint(stopvalue, highestvalue)
         else:
             nextline += str(lowestraindropnumber)
-            lengthofraindrop[i] -= 1
+            lengthofraindropNextLine[i] -= 1
 
     # update future frame with new information
     for carrier in range(linesperframe - 1, 0, -1):  # update all unaltered lines down, skipping overwriting the first, so line 1 and 2 will be identical for now, and also not rewriting the last line to another line
@@ -77,7 +77,7 @@ while True:
 
     # finally, update the next frame's first line
     currentframe[0] = nextline
-    currentframelengthofraindrop[0] = lengthofraindrop.copy()  # tracks droplength remaining to generate. Tells us when the raindrop has reached zero length. Once zero length, we wait until it goes past a certain negative
+    currentframelengthofraindrop[0] = lengthofraindropNextLine.copy()  # tracks droplength remaining to generate. Tells us when the raindrop has reached zero length. Once zero length, we wait until it goes past a certain negative
     # negative acts like the reverse of a drop. So just black bg/a gap. Once we hit the negative floor, we choose a random positive int to make a new droplet
 
 
